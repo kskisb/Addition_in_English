@@ -78,7 +78,7 @@ string numberToEnglish(long long num) {
     string res = "";
     while(num != 0) {
         int tmp = num % 1000;
-        res = lessThan1000(tmp) + " " + commas[count] + " " + res;
+        if(tmp != 0) res = lessThan1000(tmp) + " " + commas[count] + " " + res;
         num -= tmp;
         num /= 1000;
         count++;
