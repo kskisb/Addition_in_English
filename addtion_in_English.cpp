@@ -105,7 +105,7 @@ int main() {
     // vector<string> S =stringToVector();
     // S[0][0] += 32;
 
-    int a; cin >> a;
+    ll a; cin >> a;
     cout << numberToEnglish(a) << endl;
 
     //long long num = EnglishToNumber(S);
