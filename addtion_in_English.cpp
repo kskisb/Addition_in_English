@@ -9,6 +9,7 @@
 using namespace std;
 using ll = long long;
 
+// 桁の大きい数字をコンマの数に対応させて英語に変換
 map<int, string> commas = {
     {0, ""},
     {1, "thousand"},
@@ -17,16 +18,19 @@ map<int, string> commas = {
     {4, "trillion"}
 };
 
+// 数字と英語を対応させて変換
 map<int, string> numInEnglish = {
     {0, ""}, {1, "one"}, {2, "two"}, {3, "three"}, {4, "four"}, {5, "five"}, {6, "six"}, {7, "seven"}, {8, "eight"}, {9, "nine"},
     {10, "ten"}, {11, "eleven"}, {12, "twelve"}, {13, "thirteen"}, {14, "fourteen"}, {15, "fifteen"}, {16, "sixteen"}, {17, "seventeen"}, {18, "eighteen"}, {19, "nineteen"},
     {20, "twenty"}, {30, "thirty"}, {40, "forty"}, {50, "fifty"}, {60, "sixty"}, {70, "seventy"}, {80, "eighty"}, {90, "ninety"}
 };
 
+// 英語から桁の大きい数字に変換
 map<string, long long> EnglishInNum {
     {"thousand", 1000}, {"million", 1000000} , {"billion", 1000000000}, {"trillion", 1000000000000}
 };
 
+// 英語から数字に変換
 map<string, long long> lessThan1000_toNum {
     {"one", 1}, {"two", 2}, {"three", 3}, {"four", 4}, {"five", 5}, {"six", 6}, {"seven", 7}, {"eight", 8}, {"nine", 9}, {"ten", 10},
     {"eleven", 11}, {"twelve", 12}, {"thirteen", 13}, {"fourteen", 14}, {"fifteen", 15}, {"sixteen", 16}, {"seventeen", 17}, {"eighteen", 18}, {"nineteen", 19},
@@ -41,11 +45,11 @@ long long EnglishToNumber(vector<string> str_num) {
         long long tmp = 0;
         bool finished = false;
         for(int i=0; i<str_num.size(); i++) {
-            if(str_num[i] == "hundred") {
-                tmp *= 100;
-            }
             if(lessThan1000_toNum.find(str_num[i]) != lessThan1000_toNum.end()) {
                 tmp += lessThan1000_toNum[str_num[i]];
+            }
+            if(str_num[i] == "hundred") {
+                tmp *= 100;
             }
             if(EnglishInNum.find(str_num[i]) != EnglishInNum.end()) {
                 id = i;
@@ -126,6 +130,7 @@ string numberToEnglish(long long num) {
     return res;
 }
 
+// 英語で表された数字の入力を受け取ってスペース区切りで配列に格納する
 vector<string> stringToVector() {
     string s;
     getline(cin, s);
@@ -143,7 +148,6 @@ int main() {
     S[0][0] += 32;
 
     long long num = EnglishToNumber(S);
-    cout << num << endl;
     num++;
     cout << numberToEnglish(num) << endl;
 }
