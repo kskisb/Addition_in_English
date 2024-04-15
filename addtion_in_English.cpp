@@ -23,13 +23,50 @@ map<int, string> numInEnglish = {
     {20, "twenty"}, {30, "thirty"}, {40, "forty"}, {50, "fifty"}, {60, "sixty"}, {70, "seventy"}, {80, "eighty"}, {90, "ninety"}
 };
 
+map<string, long long> EnglishInNum {
+    {"thousand", 1000}, {"million", 1000000} , {"billion", 1000000000}, {"trillion", 1000000000000}
+};
+
+map<string, long long> lessThan1000_toNum {
+    {"one", 1}, {"two", 2}, {"three", 3}, {"four", 4}, {"five", 5}, {"six", 6}, {"seven", 7}, {"eight", 8}, {"nine", 9}, {"ten", 10},
+    {"eleven", 11}, {"twelve", 12}, {"thirteen", 13}, {"fourteen", 14}, {"fifteen", 15}, {"sixteen", 16}, {"seventeen", 17}, {"eighteen", 18}, {"nineteen", 19},
+    {"twenty", 20}, {"thirty", 30}, {"forty", 40}, {"fifty", 50}, {"sixty", 60}, {"seventy", 70}, {"eighty", 80}, {"ninety", 90},
+};
+
 // 英語で表現された数字を数値に変換する
-// long long EnglishToNumber(vector<string> str_num) {
-//     return 0;
-// }
+long long EnglishToNumber(vector<string> str_num) {
+    long long res = 0;
+    while(str_num.size() != 0) {
+        int id = 0;
+        long long tmp = 0;
+        bool finished = false;
+        for(int i=0; i<str_num.size(); i++) {
+            if(str_num[i] == "hundred") {
+                tmp *= 100;
+            }
+            if(lessThan1000_toNum.find(str_num[i]) != lessThan1000_toNum.end()) {
+                tmp += lessThan1000_toNum[str_num[i]];
+            }
+            if(EnglishInNum.find(str_num[i]) != EnglishInNum.end()) {
+                id = i;
+                break;
+            }
+            if(i == str_num.size()-1) {
+                finished = true;
+                id = i;
+            }
+        }
+        if(id != 0 || finished) {
+            if(EnglishInNum.find(str_num[id]) != EnglishInNum.end()) res += tmp * EnglishInNum[str_num[id]];
+            else res += tmp;
+            str_num.erase(str_num.begin(), str_num.begin()+id+1);
+        }
+    }
+    return res;
+}
 
 // 1000未満の数値を英語に変換する
-string lessThan1000(int num) {
+string lessThan1000_toEng(int num) {
     if(numInEnglish.find(num) != numInEnglish.end()) {
         return numInEnglish[num];
     }
@@ -78,7 +115,7 @@ string numberToEnglish(long long num) {
     string res = "";
     while(num != 0) {
         int tmp = num % 1000;
-        if(tmp != 0) res = lessThan1000(tmp) + " " + commas[count] + " " + res;
+        if(tmp != 0) res = lessThan1000_toEng(tmp) + " " + commas[count] + " " + res;
         num -= tmp;
         num /= 1000;
         count++;
@@ -102,14 +139,11 @@ vector<string> stringToVector() {
 
 // 英語で表現された数字を入力として受け取り、その数字と任意の数字との和を計算する
 int main() {
-    // vector<string> S =stringToVector();
-    // S[0][0] += 32;
+    vector<string> S =stringToVector();
+    S[0][0] += 32;
 
-    ll a; cin >> a;
-    cout << numberToEnglish(a) << endl;
-
-    //long long num = EnglishToNumber(S);
-    //cout << num << endl;
-    //num++;
-    //cout << numberToEnglish(num) << endl;
+    long long num = EnglishToNumber(S);
+    cout << num << endl;
+    num++;
+    cout << numberToEnglish(num) << endl;
 }
