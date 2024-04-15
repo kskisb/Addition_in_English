@@ -143,10 +143,16 @@ vector<string> stringToVector() {
 
 // 英語で表現された数字を入力として受け取り、その数字と任意の数字との和を計算する
 int main() {
+    long long addNum = 0;
+    cout << "Input the number written in English: ";
     vector<string> S =stringToVector();
     S[0][0] += 32;
 
+    cout << "Input a number that adds up to that number: ";
+    cin >> addNum;
+
     long long num = EnglishToNumber(S);
-    num++;
-    cout << numberToEnglish(num) << endl;
+    num += addNum;
+    if(num < 1e15) cout << numberToEnglish(num) << endl;
+    else cout << "Invalid inputs" << endl;
 }
