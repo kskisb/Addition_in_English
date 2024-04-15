@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <sstream>
 #include <regex>
+#include <random>
 using namespace std;
 using ll = long long;
 
@@ -130,9 +131,9 @@ string numberToEnglish(long long num) {
 }
 
 // 英語で表された数字の入力を受け取ってスペース区切りで配列に格納する
-vector<string> stringToVector() {
-    string s;
-    getline(cin, s);
+vector<string> stringToVector(string s) {
+    // string s;
+    // getline(cin, s);
     vector<string> res;
     stringstream ss(s);
     while (getline(ss, s, ' ')) {
@@ -143,10 +144,26 @@ vector<string> stringToVector() {
 
 // 英語で表現された数字を入力として受け取り、その数字と任意の数字との和を計算する
 int main() {
-    vector<string> S =stringToVector();
-    S[0][0] += 32;
+    // 乱数生成エンジンを初期化
+    std::random_device rd;
+    std::mt19937 gen(rd());
 
-    long long num = EnglishToNumber(S);
-    num++;
-    cout << numberToEnglish(num) << endl;
+    // 0から999999999999までの一様整数分布を定義
+    // std::uniform_int_distribution<long long> dis(0, 999999999999LL);
+    std::uniform_int_distribution<long long> dis(0, 999999LL);
+    for(long long cnt=0; cnt<1000000; cnt++) {
+        long long n = dis(gen);
+        string tmp = numberToEnglish(n);
+        vector<string> S = stringToVector(tmp);
+        S[0][0] += 32;
+
+        long long num = EnglishToNumber(S);
+        if(n != num) {
+            cout << "expected: " << n << endl;
+            cout << "calculated: " << n << endl;
+            break;
+        }
+        // num++;
+        // cout << numberToEnglish(num) << endl;
+    }
 }
