@@ -18,3 +18,9 @@ Result: Two hundred one
 
 ## 制約
 入力は計算の結果が0以上1000000000000000(一千兆)未満のとなるものに限ります。不正な入力に対する対策はほとんどしていません。
+入力の形式は大文字から始まる英語で、and や - (ハイフン) は使用しないでください。
+### 例
+```
+# 悪い例 -> 良い例
+One hundred and twenty-three -> One hundred twenty three
+```
